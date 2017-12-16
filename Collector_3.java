@@ -293,7 +293,7 @@ public void viewInfo(ArrayList<Student> listname){
 }
 
 
-public void deleteInfo(ArrayList<Student> listname){
+public void addInfo(ArrayList<Student> listname){
  Boolean loopContinuesone;
       
       Scanner scanner2 = new Scanner(System.in);
@@ -343,7 +343,7 @@ public void userRequest(ArrayList<Student> listname){
             
             
      if (userPurpose.equals("2")){
-      deleteInfo(listname);
+      addInfo(listname);
      }
      
      
