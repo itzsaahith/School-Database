@@ -364,7 +364,27 @@ public void deleteInfo(ArrayList<Student> listname){
    }
 
 
-
+public void saveInfo(ArrayList<Student> listname){
+   Iterator<Student> iteratorthree = listname.iterator();
+               
+               String printoutToFile = "";
+               
+               while(iteratorthree.hasNext()){
+                                    
+                  Student next = iteratorthree.next();
+                  String printout; 
+                  printout = next.getRollNumber() + " "+  next.getFullName();
+                  
+                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
+                  
+                  printoutToFile += printout;
+                  
+                  
+               }
+               
+               printToFile(printoutToFile);
+               System.out.println("Changes were saved");
+}
 
 
 public void userRequest(ArrayList<Student> listname){
@@ -388,42 +408,11 @@ public void userRequest(ArrayList<Student> listname){
      
      
      if(userPurpose.equals("3")){
-      deleteInfo(listname);
-     /*try{
-     Boolean loopContinueseight = true;
-     while (loopContinueseight){
-      System.out.println("Do you have student information that you want to delete? Please enter yes or no");
-      String response12 = scanner2.nextLine();
-      
-      if (response12.equals("yes")){
-         System.out.println("Enter the id of the student you want to delete");
-         
-         String idnumber = scanner2.nextLine();
-         for(Student next : listname){
-            if (next.rollNumber.equals(idnumber)){
-               listname.remove(listname.indexOf(next));
-            }
-         }
-         
-         deleteInfo(listname);
-   
-      }
-      
-      else if (response12.equals("no")){
-      loopContinueseight = false;
-      }
-      
-     
-     }
-     }
-     
-     catch (java.util.ConcurrentModificationException e){
-     
-     }
-     }*/
-     
+      deleteInfo(listname);}
+          
      if(userPurpose.equals("S")){
-     Iterator<Student> iteratorthree = listname.iterator();
+      saveInfo(listname);
+     /*Iterator<Student> iteratorthree = listname.iterator();
                
                String printoutToFile = "";
                
@@ -441,7 +430,7 @@ public void userRequest(ArrayList<Student> listname){
                }
                
                printToFile(printoutToFile);
-               System.out.println("Changes were saved");
+               System.out.println("Changes were saved");*/
      } 
      
      
@@ -452,4 +441,3 @@ public void userRequest(ArrayList<Student> listname){
    }
 }}
 
-}
