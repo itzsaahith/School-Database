@@ -1,8 +1,11 @@
 import java.util.*;
 import java.io.*;
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
 
 
 public class Collector_3 {
+public static final String SERIALIZED_FILE_NAME="students.xml";
 
    public static void main(String args[]){
       
@@ -241,6 +244,17 @@ public void saveInfo(ArrayList<Student> listname){
                
                printToFile(printoutToFile);
                System.out.println("Changes were saved");
+               
+               
+               
+               XMLEncoder encoder=null;
+		try{
+		encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(SERIALIZED_FILE_NAME)));
+		}catch(FileNotFoundException fileNotFound){
+			System.out.println("ERROR: While Creating or Opening the File dvd.xml");
+		}
+		encoder.writeObject(listname);
+		encoder.close();
 }
 
 
