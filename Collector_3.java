@@ -225,8 +225,8 @@ public void readFromFile(ArrayList<Student> listname){
 
 public void viewInfo(ArrayList<Student> listname){
    System.out.println("Do you want to print the information of every student?");
-         Scanner scanner2 = new Scanner(System.in);
-         String response = scanner2.nextLine();
+         Scanner scanner1 = new Scanner(System.in);
+         String response = scanner1.nextLine();
          
          
             if ((response.equals("yes")) || (response.equals("Yes"))){
@@ -263,9 +263,9 @@ public void viewInfo(ArrayList<Student> listname){
                ArrayList<String> NamesList = new ArrayList<String>();
                while (loopContinuestwo){
                   System.out.println("Enter the id number of the student you want to print. You can add more later");
-                  NamesList.add(scanner2.nextLine());
+                  NamesList.add(scanner1.nextLine());
                   System.out.println("Do you want to specify more students?");
-                     String response3 = scanner2.nextLine();
+                     String response3 = scanner1.nextLine();
                      if ((response3.equals("no")) || (response3.equals("No"))){
                         loopContinuestwo = false;
                         
@@ -293,89 +293,10 @@ public void viewInfo(ArrayList<Student> listname){
 }
 
 
-public void userRequest(ArrayList<Student> listname){
-   Boolean userRequestContinues = true;
-   
-   while(userRequestContinues){
-   System.out.println("******************************************** \n What do you want to do? \n 1 view info \n 2 add info \n 3 delete info \n S save changes \n E exit");
-   Scanner scanner2 = new Scanner(System.in);
-   String userPurpose = scanner2.nextLine();
-   
-   if (userPurpose.equals("1")){
-      viewInfo(listname);
+public void deleteInfo(ArrayList<Student> listname){
+ Boolean loopContinuesone;
       
-      /*System.out.println("Do you want to print the information of every student?");
-         String response = scanner2.nextLine();
-         
-         
-            if ((response.equals("yes")) || (response.equals("Yes"))){
-
-                 
-               //System.out.println(listname.size());
-               
-               Iterator<Student> iterator = listname.iterator();
-               
-               String printoutToFile = "";
-               
-               while(iterator.hasNext()){
-                                    
-                  Student next = iterator.next();
-                  String printout; 
-                  printout = next.getRollNumber() + " "+  next.getFullName();
-                  System.out.println(printout);
-                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
-                  
-                  printoutToFile += printout;
-                  
-                  
-               }
-               
-               printToFile(printoutToFile);
-               
-               
-            }
-            
-            else if ((response.equals("no")) || (response.equals("No"))){
-               
-               
-               Boolean loopContinuestwo = true;
-               ArrayList<String> NamesList = new ArrayList<String>();
-               while (loopContinuestwo){
-                  System.out.println("Enter the id number of the student you want to print. You can add more later");
-                  NamesList.add(scanner2.nextLine());
-                  System.out.println("Do you want to specify more students?");
-                     String response3 = scanner2.nextLine();
-                     if ((response3.equals("no")) || (response3.equals("No"))){
-                        loopContinuestwo = false;
-                        
-                        
-                        
-                        for(String nexty : NamesList){
-                        
-                           for(Student next : listname){
-                           
-                              if ((nexty).equals(next.getRollNumber())){
-
-                           System.out.println(next.getRollNumber() + " "+  next.getFullName());}
-               
-
-                        
-                     }
-
-               }
-
-                        }      
-            }
-      
-     }*/
-     
-            }
-            
-     if (userPurpose.equals("2")){
-     
-      Boolean loopContinuesone;
-      
-      Scanner scanner = new Scanner(System.in);
+      Scanner scanner2 = new Scanner(System.in);
       String answerToLoopContinues;
       Boolean noOutput = true;
       Boolean loopContinuesseven = true;
@@ -403,7 +324,26 @@ public void userRequest(ArrayList<Student> listname){
          
          }
 
-     
+}
+
+
+
+public void userRequest(ArrayList<Student> listname){
+   Boolean userRequestContinues = true;
+   
+   while(userRequestContinues){
+   System.out.println("******************************************** \n What do you want to do? \n 1 view info \n 2 add info \n 3 delete info \n S save changes \n E exit");
+   Scanner scanner2 = new Scanner(System.in);
+   String userPurpose = scanner2.nextLine();
+   
+   if (userPurpose.equals("1")){
+      viewInfo(listname);  
+      }
+            
+            
+            
+     if (userPurpose.equals("2")){
+      deleteInfo(listname);
      }
      
      
