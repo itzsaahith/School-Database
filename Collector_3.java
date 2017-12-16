@@ -327,6 +327,45 @@ public void addInfo(ArrayList<Student> listname){
 }
 
 
+public void deleteInfo(ArrayList<Student> listname){
+   Scanner scanner3 = new Scanner(System.in);
+
+   try{
+     Boolean loopContinueseight = true;
+     while (loopContinueseight){
+      System.out.println("Do you have student information that you want to delete? Please enter yes or no");
+      String response12 = scanner3.nextLine();
+      
+      if (response12.equals("yes")){
+         System.out.println("Enter the id of the student you want to delete");
+         
+         String idnumber = scanner3.nextLine();
+         for(Student next : listname){
+            if (next.rollNumber.equals(idnumber)){
+               listname.remove(listname.indexOf(next));
+            }
+         }
+         
+   
+      }
+      
+      else if (response12.equals("no")){
+      loopContinueseight = false;
+      }
+      
+     
+     }
+     }
+     
+     catch (java.util.ConcurrentModificationException e){
+     
+     }
+
+   }
+
+
+
+
 
 public void userRequest(ArrayList<Student> listname){
    Boolean userRequestContinues = true;
@@ -349,8 +388,8 @@ public void userRequest(ArrayList<Student> listname){
      
      
      if(userPurpose.equals("3")){
-     
-     try{
+      deleteInfo(listname);
+     /*try{
      Boolean loopContinueseight = true;
      while (loopContinueseight){
       System.out.println("Do you have student information that you want to delete? Please enter yes or no");
@@ -365,6 +404,8 @@ public void userRequest(ArrayList<Student> listname){
                listname.remove(listname.indexOf(next));
             }
          }
+         
+         deleteInfo(listname);
    
       }
       
@@ -379,7 +420,7 @@ public void userRequest(ArrayList<Student> listname){
      catch (java.util.ConcurrentModificationException e){
      
      }
-     }
+     }*/
      
      if(userPurpose.equals("S")){
      Iterator<Student> iteratorthree = listname.iterator();
@@ -410,3 +451,5 @@ public void userRequest(ArrayList<Student> listname){
    }   
    }
 }}
+
+}
