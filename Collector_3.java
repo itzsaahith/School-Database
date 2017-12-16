@@ -3,8 +3,7 @@ import java.io.*;
 
 
 public class Collector_3 {
-      
-   //Defining main method for program execution
+
    public static void main(String args[]){
       
       
@@ -15,136 +14,10 @@ public class Collector_3 {
       test.readFromFile(StdList);
       
       
-      test.userRequest(StdList);
-      //test.getList(StdList);
-      
-      
-    
+      test.userRequest(StdList); 
    }
-   
-   
-/*   
-   public void getList(ArrayList<Student> listname){
-      
-      
-      Boolean loopContinues;
-      loopContinues = true;
-      Scanner scanner = new Scanner(System.in);
-      String answerToLoopContinues;
-      Boolean noOutput = true;
-      Boolean loopContinuesone = true;
-      
-      
-          
-      while(loopContinues){
-         System.out.println("Do you have student information to enter? Please enter yes or no");
-         answerToLoopContinues = scanner.nextLine();
-         
-         if (answerToLoopContinues.equals("yes")){
-            
-            
-            Student temp;
-            temp = getStudentInfo();
-            listname.add(temp);
-            noOutput = false;
-            
 
-         
-         }
-         else if (answerToLoopContinues.equals("no")){
-            
-            if (noOutput){
-               System.out.println("You have not entered any information.");
-               
-            }
-            else {
-         //from here on, the code is to print the information
-         while(loopContinuesone){
-         System.out.println("Do you want to print the information of every student?");
-         String response = scanner.nextLine();
-         
-         
-            if ((response.equals("yes")) || (response.equals("Yes"))){
 
-                 
-               //System.out.println(listname.size());
-               loopContinuesone = false;
-               Iterator<Student> iterator = listname.iterator();
-               
-               String printoutToFile = "";
-               
-               while(iterator.hasNext()){
-                                    
-                  Student next = iterator.next();
-                  String printout; 
-                  printout = next.getRollNumber() + " "+  next.getFullName();
-                  System.out.println(printout);
-                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
-                  
-                  printoutToFile += printout;
-                  
-                  
-               }
-               
-               printToFile(printoutToFile);
-               
-               
-            }
-            
-            else if ((response.equals("no")) || (response.equals("No"))){
-               loopContinuesone = false;
-               
-               Boolean loopContinuestwo = true;
-               ArrayList<String> NamesList = new ArrayList<String>();
-               while (loopContinuestwo){
-                  System.out.println("Enter the id number of the student you want to print. You can add more later");
-                  NamesList.add(scanner.nextLine());
-                  System.out.println("Do you want to specify more students?");
-                     String response3 = scanner.nextLine();
-                     if ((response3.equals("no")) || (response3.equals("No"))){
-                        loopContinuestwo = false;
-                        
-                        
-                        
-                        for(String nexty : NamesList){
-                        
-                           for(Student next : listname){
-                           
-                              if ((nexty).equals(next.getRollNumber())){
-
-                           System.out.println(next.getRollNumber() + " "+  next.getFullName());}
-               
-
-                        
-                     }
-                  
-                  
-                  
-               
-               }
-                        
-                        
-                        }
-                        
-            }
-      
-     }
-            }
-            loopContinues = false;
-            
-         }
-      
-      }
-   
-   }
-   }
-   
-   
-*/   
-   
-   
-   
-   
    
 public Student getStudentInfo(){
    
@@ -197,22 +70,9 @@ public void readFromFile(ArrayList<Student> listname){
                 tempo.firstName = array[1];
                 tempo.lastName = array[2];
                 listname.add(tempo);
-                
-                /*for(String w:line.split("\\s",1)){  
-                  System.out.print(w);  
-                  } *\  
-                /*System.out.println(line);
-                String array[] = line.split("\\s");
-                Student tempo = new Student();
-                tempo.rollNumber = array[0];
-                tempo.firstName = array[1];
-                tempo.lastName = array[2];
-                listname.add(tempo);*/
-                }
+                                }
             }
-   
-   
-   
+            
    catch(IOException ex){
       System.out.println("Unable to open file");
      }
@@ -230,9 +90,6 @@ public void viewInfo(ArrayList<Student> listname){
          
          
             if ((response.equals("yes")) || (response.equals("Yes"))){
-
-                 
-               //System.out.println(listname.size());
                
                Iterator<Student> iterator = listname.iterator();
                
@@ -410,34 +267,17 @@ public void userRequest(ArrayList<Student> listname){
      if(userPurpose.equals("3")){
       deleteInfo(listname);}
           
+     
+     
      if(userPurpose.equals("S")){
       saveInfo(listname);
-     /*Iterator<Student> iteratorthree = listname.iterator();
-               
-               String printoutToFile = "";
-               
-               while(iteratorthree.hasNext()){
-                                    
-                  Student next = iteratorthree.next();
-                  String printout; 
-                  printout = next.getRollNumber() + " "+  next.getFullName();
-                  
-                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
-                  
-                  printoutToFile += printout;
-                  
-                  
-               }
-               
-               printToFile(printoutToFile);
-               System.out.println("Changes were saved");*/
      } 
      
      
+   
    if(userPurpose.equals("E")){
       userRequestContinues = false;
 
    }   
    }
 }}
-
