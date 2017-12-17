@@ -59,6 +59,16 @@ public void printToFile(String info){
 public void readFromFile(ArrayList<Student> listname){
     
    String line = "";
+   /*XMLDecoder decoder=null;
+		try {
+			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(SERIALIZED_FILE_NAME)));
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: File dvd.xml not found");
+		}
+
+		ArrayList<Student> listfromfile=(ArrayList<Student>)decoder.readObject();
+		System.out.println(listfromfile);
+      listname = listfromfile;*/
    
    try {
       FileReader fileReader = new FileReader("data.txt");
@@ -247,14 +257,14 @@ public void saveInfo(ArrayList<Student> listname){
                
                
                
-               XMLEncoder encoder=null;
+               /*XMLEncoder encoder=null;
 		try{
 		encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(SERIALIZED_FILE_NAME)));
 		}catch(FileNotFoundException fileNotFound){
 			System.out.println("ERROR: While Creating or Opening the File dvd.xml");
 		}
 		encoder.writeObject(listname);
-		encoder.close();
+		encoder.close();*/
 }
 
 
