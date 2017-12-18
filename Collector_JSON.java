@@ -1,5 +1,8 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 import java.io.*;
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
 
 
 public class Collector_JSON {
@@ -8,7 +11,7 @@ public static final String SERIALIZED_FILE_NAME="students.xml";
    public static void main(String args[]){
       
       
-      Collector_4 test = new Collector_JSON();
+      Collector_JSON test = new Collector_JSON();
        
       ArrayList<Student> StdList = new ArrayList<Student>();
      
