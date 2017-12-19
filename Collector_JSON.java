@@ -1,12 +1,14 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 import java.io.*;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
+
 
 
 public class Collector_JSON {
-public static final String SERIALIZED_FILE_NAME="students.xml";
+
 
    public static void main(String args[]){
       
@@ -55,20 +57,35 @@ public void printToFile(String info){
    
 
 public static ArrayList<Student> readFromFile(){
-    
-   String line = "";
-   XMLDecoder decoder=null;
-		try {
-			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(SERIALIZED_FILE_NAME)));
-		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File dvd.xml not found");
-		}
+		
+      
+      /*Gson Gson = new Gson();
+      
+      
+      
+      String file_string = (new BufferedInputStream(new FileInputStream("students_info.json"))).toString();
+      
+      catch(Exception e){
+   e.printStackTrace();
+   }
+   
+      
+      Type type = new TypeToken<ArrayList<Student>>() {}.getType();
+      ArrayList<Student> studentList = Gson.fromJson(file_string, type);
+      */
+      
+      Student s = new Student();
+      ArrayList<Student> StdList = new ArrayList<Student>();
+      StdList.add(s);
+      return StdList;
+     
+      
+      }
+      
+      
+      
 
-		ArrayList<Student> listfromfile = (ArrayList<Student>)decoder.readObject();
-		decoder.close();
-      System.out.println(listfromfile);
-      return listfromfile;
-}
+      
 
 
 public void viewInfo(ArrayList<Student> listname){
@@ -210,17 +227,22 @@ public void deleteInfo(ArrayList<Student> listname){
 
 
 public void saveInfo(ArrayList<Student> listname){
-               XMLEncoder encoder=null;
-		try{
-		encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(SERIALIZED_FILE_NAME)));
-		}catch(FileNotFoundException fileNotFound){
-			System.out.println("ERROR: While Creating or Opening the File dvd.xml");
+   
+   Gson gson = new Gson();
+   String jsonstudents = gson.toJson(listname);
+   System.out.println(jsonstudents);
+
+   try {
+			FileWriter fileWriter = new FileWriter("students_info.json");
+			fileWriter.write(jsonstudents);
+			fileWriter.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		encoder.writeObject(listname);
-		encoder.close();
-      
-      System.out.println("Info was saved");
+     
+
 }
+
 
 
 public void userRequest(ArrayList<Student> listname){
