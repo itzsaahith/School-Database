@@ -81,38 +81,12 @@ public static ArrayList<Student> readFromFile(ArrayList<Student> list){
       catch(Exception e){
    e.printStackTrace();
    }
-   
-   
-
-      /*Gson Gson = new Gson();
-      
-      
-      
-      String file_string = (new BufferedInputStream(new FileInputStream("students_info.json"))).toString();
-      
-      catch(Exception e){
-   e.printStackTrace();
-   }
-   
-      
-      Type type = new TypeToken<ArrayList<Student>>() {}.getType();
-      ArrayList<Student> studentList = Gson.fromJson(file_string, type);
-      */
-            
-     /* Student s = new Student();
-      ArrayList<Student> StdList = new ArrayList<Student>();
-      StdList.add(s);*/
-      
+         
      return list;
       
       }
       
       
-      
-
-      
-
-
 public void viewInfo(ArrayList<Student> listname){
    System.out.println("Do you want to print the information of every student?");
          Scanner scanner1 = new Scanner(System.in);
