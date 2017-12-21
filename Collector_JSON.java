@@ -3,6 +3,10 @@ import java.io.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.JSONParser;
 
 
 
@@ -14,10 +18,11 @@ public class Collector_JSON {
       
       
       Collector_JSON test = new Collector_JSON();
+      
        
-      ArrayList<Student> StdList = new ArrayList<Student>();
+      ArrayList<Student> studentList = new ArrayList<Student>();
      
-      test.userRequest(readFromFile()); 
+      test.userRequest(readFromFile(studentList)); 
    }
 
 
@@ -56,9 +61,29 @@ public void printToFile(String info){
    }
    
 
-public static ArrayList<Student> readFromFile(){
+public static ArrayList<Student> readFromFile(ArrayList<Student> list){
 		
+      try{
       
+      BufferedReader br = new BufferedReader(new FileReader("students_info.json"));
+      String jsonStudents = br.readLine();
+      
+      
+      Gson Gson = new Gson();
+      Type type = new TypeToken<ArrayList<Student>>() {}.getType();
+      list = Gson.fromJson(jsonStudents, type);
+      return list;
+
+
+      
+      
+      }
+      catch(Exception e){
+   e.printStackTrace();
+   }
+   
+   
+
       /*Gson Gson = new Gson();
       
       
@@ -73,12 +98,12 @@ public static ArrayList<Student> readFromFile(){
       Type type = new TypeToken<ArrayList<Student>>() {}.getType();
       ArrayList<Student> studentList = Gson.fromJson(file_string, type);
       */
-      
-      Student s = new Student();
+            
+     /* Student s = new Student();
       ArrayList<Student> StdList = new ArrayList<Student>();
-      StdList.add(s);
-      return StdList;
-     
+      StdList.add(s);*/
+      
+     return list;
       
       }
       
@@ -234,7 +259,7 @@ public void saveInfo(ArrayList<Student> listname){
 
    try {
 			FileWriter fileWriter = new FileWriter("students_info.json");
-			fileWriter.write(jsonstudents);
+			fileWriter.write(gson.toJson(listname));
 			fileWriter.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
