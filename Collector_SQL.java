@@ -1,7 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
 import java.sql.*;
 
 
@@ -17,8 +15,10 @@ public static final String SERIALIZED_FILE_NAME="students.xml";
      
       test.readFromFile(StdList);
       
+      ArrayList<Student> additions = new ArrayList<Student>();
+      ArrayList<String> deletions = new ArrayList<String>();
       
-      test.userRequest(StdList); 
+      test.userRequest(StdList, additions, deletions); 
    }
 
 
@@ -79,7 +79,6 @@ public void readFromFile(ArrayList<Student> listname){
  
          // Step 4: Process the ResultSet by scrolling the cursor forward via next().
          //  For each row, retrieve the contents of the cells with getXxx(columnName).
-         System.out.println("The records selected are:");
          
          
          
@@ -105,25 +104,12 @@ public void readFromFile(ArrayList<Student> listname){
  
       } catch(SQLException ex) {
          ex.printStackTrace();
-      }
-   
-   
-   /*/*XMLDecoder decoder=null;
-		try {
-			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(SERIALIZED_FILE_NAME)));
-		} catch (FileNotFoundException e) {
-			System.out.println("ERROR: File dvd.xml not found");
-		}
-
-		ArrayList<Student> listfromfile=(ArrayList<Student>)decoder.readObject();
-		System.out.println(listfromfile);
-      listname = listfromfile;*/
-   
-   
+      } 
 }
 
 
 public void viewInfo(ArrayList<Student> listname){
+   System.out.println("***Please note that only changes that have been saved will appear here***");
    System.out.println("Do you want to print the information of every student?");
          Scanner scanner1 = new Scanner(System.in);
          String response = scanner1.nextLine();
@@ -190,7 +176,7 @@ public void viewInfo(ArrayList<Student> listname){
 }
 
 
-public void addInfo(ArrayList<Student> listname){
+public ArrayList<Student> addInfo(ArrayList<Student> additions){
  Boolean loopContinuesone;
       
       Scanner scanner2 = new Scanner(System.in);
@@ -210,7 +196,9 @@ public void addInfo(ArrayList<Student> listname){
             
             Student temp;
             temp = getStudentInfo();
-            listname.add(temp);
+            additions.add(temp);
+            int size = additions.size();
+            
             noOutput = false;
             }
          
@@ -220,11 +208,13 @@ public void addInfo(ArrayList<Student> listname){
 
          
          }
+         
+         return additions;
 
 }
 
 
-public void deleteInfo(ArrayList<Student> listname){
+public void deleteInfo(ArrayList<Student> listname, ArrayList<String> deletions){
    Scanner scanner3 = new Scanner(System.in);
 
    try{
@@ -239,7 +229,11 @@ public void deleteInfo(ArrayList<Student> listname){
          String idnumber = scanner3.nextLine();
          for(Student next : listname){
             if (next.rollNumber.equals(idnumber)){
-               listname.remove(listname.indexOf(next));
+               
+               //deletions.add((listname.get(listname.indexOf(next))).toString());no
+               
+               deletions.add(idnumber);
+               
             }
          }
          
@@ -261,41 +255,64 @@ public void deleteInfo(ArrayList<Student> listname){
    }
 
 
-public void saveInfo(ArrayList<Student> listname){
-   Iterator<Student> iteratorthree = listname.iterator();
+public void saveInfo(ArrayList<Student> additions, ArrayList<String> deletions){
+
+               try (
+         // Step 1: Allocate a database 'Connection' object
+         Connection conn = DriverManager.getConnection(
+               "jdbc:mysql://localhost:3306/studentinfo?useSSL=false", "root", "root"); // MySQL
                
-               String printoutToFile = "";
-               
-               while(iteratorthree.hasNext()){
-                                    
-                  Student next = iteratorthree.next();
-                  String printout; 
-                  printout = next.getRollNumber() + " "+  next.getFullName();
+         // Step 2: Allocate a 'Statement' object in the Connection
+         Statement stmt = conn.createStatement();
+      ) {
+         
+          
+         Iterator<String> iteratorthree = deletions.iterator();
+         
+         
+         while(iteratorthree.hasNext()){
+                               
+                  String next = iteratorthree.next();
+                  String sqlDelete = "delete from students where id = " + next;
                   
-                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
+                 stmt.executeUpdate(sqlDelete);
+                  }
+     
+
+         
+         Iterator<Student> iteratorfour = additions.iterator();
+         
+
+         
+         for(Student elem : additions){
+                     
                   
-                  printoutToFile += printout;
                   
+                  String id = elem.getRollNumber();
+                  String first = elem.getFirstName();
+                  String last = elem.getLastName();
+                  
+                  String sqlInsert = "insert into students " + "values ('" + id + "', '" + first + "', '" + last + "')";
+                  
+              // Echo for debugging
+           int countInserted = stmt.executeUpdate(sqlInsert);
+         //System.out.println(countInserted + " records inserted.\n");
+                  }
+
+    } catch(SQLException ex) {
+         System.out.println("We got an exception");
+
+         ex.printStackTrace();
+      }
+
+                  System.out.println("Changes were saved"); 
                   
                }
-               
-               printToFile(printoutToFile);
-               System.out.println("Changes were saved");
-               
-               
-               
-               /*XMLEncoder encoder=null;
-		try{
-		encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(SERIALIZED_FILE_NAME)));
-		}catch(FileNotFoundException fileNotFound){
-			System.out.println("ERROR: While Creating or Opening the File dvd.xml");
-		}
-		encoder.writeObject(listname);
-		encoder.close();*/
-}
 
 
-public void userRequest(ArrayList<Student> listname){
+
+
+public void userRequest(ArrayList<Student> listname, ArrayList<Student> additions, ArrayList<String> deletions){
    Boolean userRequestContinues = true;
    
    while(userRequestContinues){
@@ -303,25 +320,28 @@ public void userRequest(ArrayList<Student> listname){
    Scanner scanner2 = new Scanner(System.in);
    String userPurpose = scanner2.nextLine();
    
-   if (userPurpose.equals("1")){
+      if (userPurpose.equals("1")){
       viewInfo(listname);  
       }
             
             
             
      if (userPurpose.equals("2")){
-      addInfo(listname);
+      additions = addInfo(additions);
      }
      
      
      
      if(userPurpose.equals("3")){
-      deleteInfo(listname);}
+      deleteInfo(listname, deletions);}
           
      
      
      if(userPurpose.equals("S")){
-      saveInfo(listname);
+      saveInfo(additions, deletions);
+      listname.clear();
+      readFromFile(listname);
+      
      } 
      
      
