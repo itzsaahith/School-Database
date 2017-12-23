@@ -9,4 +9,4 @@ This repository is also my first time actually doing something with GitHub and G
 
 
 ## Progress
-Currently, I have two main files in the repository (excluding the student class). Both these files accomplish the same goal but serialize and desirialize the information using different languages (XML, and JSON). I hope to make the program interact with a SQL database soon.
+Currently, I have two main files in the repository (excluding the student class). Both these files accomplish the same goal but serialize and desirialize the information using different languages (XML, and JSON). I also made a program which acheives the same functionality by interacting with a MySQL database.
