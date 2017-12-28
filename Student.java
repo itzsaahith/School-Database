@@ -4,7 +4,8 @@ public class Student{
    public String rollNumber;
    public String firstName;
    public String lastName;
-   
+   public Purpose studentPurpose;
+   //Purpose studentPurpose = Purpose.N;
    //defining constructor
    
    /*public Student(String roll, String first, String last) {
@@ -19,6 +20,8 @@ public class Student{
       rollNumber = "empty";
       firstName = "empty";
       lastName = "empty";
+      Purpose studentPurpose = Purpose.N;
+      
    }
    
    
