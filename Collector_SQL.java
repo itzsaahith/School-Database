@@ -94,6 +94,7 @@ public void readFromFile(ArrayList<Student> listname){
             temp.rollNumber = id;
             temp.firstName = first;
             temp.lastName = last;
+            temp.studentPurpose = Purpose.N;
             
             listname.add(temp);
             
@@ -109,7 +110,6 @@ public void readFromFile(ArrayList<Student> listname){
 
 
 public void viewInfo(ArrayList<Student> listname){
-   System.out.println("***Please note that only changes that have been saved will appear here***");
    System.out.println("Do you want to print the information of every student?");
          Scanner scanner1 = new Scanner(System.in);
          String response = scanner1.nextLine();
@@ -122,14 +122,15 @@ public void viewInfo(ArrayList<Student> listname){
                String printoutToFile = "";
                
                while(iterator.hasNext()){
-                                    
+                                   
                   Student next = iterator.next();
+                  if ((Purpose.N.equals(next.studentPurpose)) || (Purpose.A.equals(next.studentPurpose)) || (Purpose.E.equals(next.studentPurpose))){
                   String printout; 
                   printout = next.getRollNumber() + " "+  next.getFullName();
                   System.out.println(printout);
-                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";
+                  printout = next.getRollNumber() + " "+  next.getFullName() + "\n";}
                   
-                  printoutToFile += printout;
+                  
                   
                   
                }
@@ -176,7 +177,7 @@ public void viewInfo(ArrayList<Student> listname){
 }
 
 
-public ArrayList<Student> addInfo(ArrayList<Student> additions){
+public ArrayList<Student> addInfo(ArrayList<Student> listname){
  Boolean loopContinuesone;
       
       Scanner scanner2 = new Scanner(System.in);
@@ -196,8 +197,10 @@ public ArrayList<Student> addInfo(ArrayList<Student> additions){
             
             Student temp;
             temp = getStudentInfo();
-            additions.add(temp);
-            int size = additions.size();
+            temp.studentPurpose = Purpose.A;
+            
+            listname.add(temp);
+            
             
             noOutput = false;
             }
@@ -209,12 +212,12 @@ public ArrayList<Student> addInfo(ArrayList<Student> additions){
          
          }
          
-         return additions;
+         return listname;
 
 }
 
 
-public void deleteInfo(ArrayList<Student> listname, ArrayList<String> deletions){
+public void deleteInfo(ArrayList<Student> listname){
    Scanner scanner3 = new Scanner(System.in);
 
    try{
@@ -230,9 +233,9 @@ public void deleteInfo(ArrayList<Student> listname, ArrayList<String> deletions)
          for(Student next : listname){
             if (next.rollNumber.equals(idnumber)){
                
-               //deletions.add((listname.get(listname.indexOf(next))).toString());no
                
-               deletions.add(idnumber);
+               next.studentPurpose = Purpose.D;
+               
                
             }
          }
@@ -253,9 +256,59 @@ public void deleteInfo(ArrayList<Student> listname, ArrayList<String> deletions)
      }
 
    }
+   
+public void editInfo(ArrayList<Student> listname){
+   Scanner scanner3 = new Scanner(System.in);
+
+   try{
+     Boolean loopContinuesnine = true;
+     while(loopContinuesnine){
+      System.out.println("Do you have student information that you want to edit? Please enter yes or no");
+      String response12 = scanner3.nextLine();
+      
+      if (response12.equals("yes")){
+         System.out.println("Enter the id of the student you want to edit");
+         String idnumber = scanner3.nextLine();
+         for(Student next : listname){
+            if (next.rollNumber.equals(idnumber)){
+               next.studentPurpose = Purpose.D;
+         System.out.println("Enter the first name of the student.");   
+         String firstName = scanner3.nextLine();    
+         System.out.println("Enter the last name of the student."); 
+         String lastName = scanner3.nextLine();
+         Student temp = new Student();
+         
+         temp.rollNumber = idnumber;
+         temp.firstName = firstName;
+         temp.lastName = lastName;
+         temp.studentPurpose = Purpose.A;
+         listname.add(temp);
+             
+               
+            }
+         }
+         
+   
+      }
+      
+      else if (response12.equals("no")){
+      loopContinuesnine = false;
+      }
+      
+     
+     }
+     }
+     
+     catch (java.util.ConcurrentModificationException e){
+     
+     }
+
+   }
+   
 
 
-public void saveInfo(ArrayList<Student> additions, ArrayList<String> deletions){
+
+public void saveInfo(ArrayList<Student> listname, ArrayList<Student> additions, ArrayList<String> deletions){
 
                try (
          // Step 1: Allocate a database 'Connection' object
@@ -266,8 +319,28 @@ public void saveInfo(ArrayList<Student> additions, ArrayList<String> deletions){
          Statement stmt = conn.createStatement();
       ) {
          
+         for (Student elem : listname){
+            if (Purpose.D.equals(elem.studentPurpose)){
+               String sqlDelete = "delete from students where id = " + elem.rollNumber;
+                  
+                 stmt.executeUpdate(sqlDelete);
+            }
+         }
+         
+         for (Student elem : listname){
+            if (Purpose.A.equals(elem.studentPurpose)){
+                 String id = elem.getRollNumber();
+                 String first = elem.getFirstName();
+                 String last = elem.getLastName();
+
+                 String sqlInsert = "insert into students " + "values ('" + id + "', '" + first + "', '" + last + "')";                  
+                 stmt.executeUpdate(sqlInsert);
+            }
+         }
+         
+         
           
-         Iterator<String> iteratorthree = deletions.iterator();
+         /*Iterator<String> iteratorthree = deletions.iterator();
          
          
          while(iteratorthree.hasNext()){
@@ -296,8 +369,8 @@ public void saveInfo(ArrayList<Student> additions, ArrayList<String> deletions){
                   
               // Echo for debugging
            int countInserted = stmt.executeUpdate(sqlInsert);
-         //System.out.println(countInserted + " records inserted.\n");
-                  }
+         //System.out.println(countInserted + " records inserted.\n");*/
+                  
 
     } catch(SQLException ex) {
          System.out.println("We got an exception");
@@ -316,7 +389,7 @@ public void userRequest(ArrayList<Student> listname, ArrayList<Student> addition
    Boolean userRequestContinues = true;
    
    while(userRequestContinues){
-   System.out.println("******************************************** \n What do you want to do? \n 1 view info \n 2 add info \n 3 delete info \n S save changes \n E exit");
+   System.out.println("******************************************** \n What do you want to do? \n 1 view info \n 2 add info \n 3 delete info \n 4 edit info \n S save changes \n E exit");
    Scanner scanner2 = new Scanner(System.in);
    String userPurpose = scanner2.nextLine();
    
@@ -327,18 +400,22 @@ public void userRequest(ArrayList<Student> listname, ArrayList<Student> addition
             
             
      if (userPurpose.equals("2")){
-      additions = addInfo(additions);
+      additions = addInfo(listname);
      }
      
      
      
      if(userPurpose.equals("3")){
-      deleteInfo(listname, deletions);}
+      deleteInfo(listname);}
+      
+     
+     if(userPurpose.equals("4")){
+      editInfo(listname);}
           
      
      
      if(userPurpose.equals("S")){
-      saveInfo(additions, deletions);
+      saveInfo(listname, additions, deletions);
       listname.clear();
       readFromFile(listname);
       
